@@ -18,13 +18,13 @@ export default function Index() {
   }, []);
 
   async function getUsers() {
-    const res = await fetch('http://localhost:9001/user');
+    const res = await fetch('https://jian01.vercel.app/user');
     const data = await res.json();
     setUsers(data);
   }
 
   async function insert() {
-    const res = await fetch('http://localhost:9001/item', {
+    const res = await fetch('https://jian01.vercel.app/item', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
