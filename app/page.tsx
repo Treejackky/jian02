@@ -10,16 +10,21 @@ export default function Index() {
 
 
   useEffect(() => {
-    async function getUsers() {
-      const res = await fetch('https://jian01.vercel.app/user');
-      const data = await res.json();
-      setUsers(data);
+    let i = 0;
+    if(i==0){
+      getUsers();
+      i++;
     }
-    getUsers();
   }, []);
 
+  async function getUsers() {
+    const res = await fetch('http://localhost:9001/user');
+    const data = await res.json();
+    setUsers(data);
+  }
+
   async function insert() {
-    const res = await fetch('https://jian01.vercel.app/item', {
+    const res = await fetch('http://localhost:9001/item', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,11 +33,11 @@ export default function Index() {
     });
     const data = await res.json();
     console.log(data);
+    setUsers(data);
   }
 
   
   const handleAdd = async (e:any) => {
-    // setEmail(e);
     console.log('email', e.target.value);
     setEmail(e.target.value);
   };
@@ -53,10 +58,10 @@ export default function Index() {
         </div> 
 
      
-       <form>
+   
        <input type='text' onChange={handleAdd} />
         <button onClick={insert}>Add</button>
-       </form>
+    
         
      
        
