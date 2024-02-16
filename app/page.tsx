@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 
 
 export default function Index() {
-  const [users, setUsers] = useState([]);
-  const [email, setEmail] = useState('');
-
+  const [users, setUsers] = useState<any>([]);
+  const [email, setEmail] = useState<any>('');
+  // const [id , setId] = useState<any>('');
 
   useEffect(() => {
     let i = 0;
@@ -18,30 +18,45 @@ export default function Index() {
   }, []);
 
   async function getUsers() {
-    const res = await fetch('https://jian01.vercel.app/user');
+    const res = await fetch('https://jian02.vercel.app/user');
     const data = await res.json();
     setUsers(data);
   }
 
   async function insert() {
-    const res = await fetch('https://jian01.vercel.app/item', {
+    const res = await fetch('https://jian02.vercel.app/item', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email }),
     });
-    const data = await res.json();
-    console.log(data);
+    const data = await res.json(); 
+    console.log('data', data);
     setUsers(data);
+    
   }
 
+  async function del(id:any) {
+    console.log('Deleting user with id:', id);
+    const response = await fetch(`https://jian02.vercel.app/item_del`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+
+    });
+  }
+  
+  
   
   const handleAdd = async (e:any) => {
     console.log('email', e.target.value);
     setEmail(e.target.value);
   };
-
+  
+ 
   
 
   return (
@@ -70,7 +85,10 @@ export default function Index() {
         <h1>Users</h1>
         <ul>
           {users.map((user: any) => (
-            <li key={user._id}>{user.email}</li>
+            <li key={user._id}>
+              {user.email}
+              <button onClick={_ => del(user._id)}>DEL</button>
+              </li>
           ))}
         </ul>
       </main>
